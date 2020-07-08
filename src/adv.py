@@ -25,30 +25,53 @@ room['treasure'].s_to = room['narrow']
 # Main
 #
 def input_parser(input):
-  if input == 'q':
-    return True
-  elif input == 'n':
-    if hasattr(player.current_room, 'n_to'):
-      player.set_current_room(player.current_room.get_n_to())
+  inputArr = input.split(' ')
+  first = inputArr[0]
+  second = inputArr[1] if inputArr.__len__() > 1 else ''
+  if second == '':
+    if first == 'q':
+      return True
+    elif first == 'n':
+      next_room = player.get_current_room().get_n_to()
+      if next_room is not None:
+        player.set_current_room(next_room)
+      else:
+        print('\nThere is no room to the North')
+    elif first == 's':
+      next_room = player.get_current_room().get_s_to()
+      if next_room is not None:
+        player.set_current_room(next_room)
+      else:
+        print('\nThere is no room to the South')
+    elif first == 'e':
+      next_room = player.get_current_room().get_e_to()
+      if next_room is not None:
+        player.set_current_room(next_room)
+      else:
+        print('\nThere is no room to the East')
+    elif first == 'w':
+      next_room = player.get_current_room().get_w_to()
+      if next_room is not None:
+        player.set_current_room(next_room)
+      else:
+        print('\nThere is no room to the West')
+    elif first == 'i' or first == 'inventory':
+      print(f'\n{player.get_inventory()}')
     else:
-      print('\nThere is no room to the North\n')
-  elif input == 's':
-    if hasattr(player.current_room, 's_to'):
-      player.set_current_room(player.current_room.get_s_to())
-    else:
-      print('\nThere is no room to the South\n')
-  elif input == 'e':
-    if hasattr(player.current_room, 'e_to'):
-      player.set_current_room(player.current_room.get_e_to())
-    else:
-      print('\nThere is no room to the East\n')
-  elif input == 'w':
-    if hasattr(player.current_room, 'w_to'):
-      player.set_current_room(player.current_room.get_w_to())
-    else:
-      print('\nThere is no room to the West\n')
+      print('\nPlease enter a valid command (n, s, e, w) or (q)')
   else:
-    print('Please enter a valid command (n, s, e, w) or (q)')
+    if first == 'get' or first == 'take':
+      item = player.get_current_room().remove_item(second)
+      if item is not None:
+        player.take_item(item)
+      else:
+        print(f'\nThis room does not have the item: {second}')
+    elif first == 'drop':
+      item = player.drop_item(second)
+      if item is not None:  
+        player.get_current_room().add_item(item)
+      else:
+        print(f'\nYou do not have the item: {second}')
   return False
 
 def start_game():
@@ -63,9 +86,8 @@ def start_game():
   # If the user enters "q", quit the game.
   end_game = False
   while not end_game:
-    print(f'\n{player.current_room.get_name()} -')
-    print(f'{player.current_room.get_description()}\n')
-    player_input = input(f'\tPlease pick an available direction (n, s, e, w) or quit (q): ')
+    print(player.current_room)
+    player_input = input(f'\tPlease pick an available direction (n, s, e, w),\n\tpick up items (get [item], take [item]),\n\tdrop items (drop [item]),\n\tview inventory(i, inventory),\n\tor quit (q): ')
     end_game = input_parser(player_input.lower())
 
 # Make a new player object that is currently in the 'outside' room.
