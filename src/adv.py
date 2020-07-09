@@ -81,7 +81,7 @@ def start_game():
   room['outside'].add_item(Item('stick', 'deals 1d4 damage for 3 hits'))
   room['outside'].add_item(Item('rock', 'throw for 2d4 damage'))
   room['foyer'].add_item(Item('chair', 'fancy diner chair'))
-  room['overlook'].add_item(Item('table', 'worn table'))
+  room['overlook'].add_item(Item('scroll', 'sealed scroll'))
 
   # Write a loop that:
   # * Prints the current room name
