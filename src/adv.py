@@ -1,6 +1,7 @@
 import textwrap
 from room import Room
 from player import Player
+from item import Item
 
 # Declare all the rooms
 room = {
@@ -68,13 +69,20 @@ def input_parser(input):
         print(f'\nThis room does not have the item: {second}')
     elif first == 'drop':
       item = player.drop_item(second)
-      if item is not None:  
+      print(item)
+      if item is not None:
         player.get_current_room().add_item(item)
       else:
         print(f'\nYou do not have the item: {second}')
   return False
 
 def start_game():
+  room['outside'].add_item(Item('apple', 'heals 1 hp'))
+  room['outside'].add_item(Item('stick', 'deals 1d4 damage for 3 hits'))
+  room['outside'].add_item(Item('rock', 'throw for 2d4 damage'))
+  room['foyer'].add_item(Item('chair', 'fancy diner chair'))
+  room['overlook'].add_item(Item('table', 'worn table'))
+
   # Write a loop that:
   # * Prints the current room name
   # * Prints the current description (the textwrap module might be useful here).

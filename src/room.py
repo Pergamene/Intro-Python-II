@@ -31,7 +31,6 @@ class Room:
     return self.w_to
 
   def add_item(self, item):
-    item.on_drop()
     self.items.append(item)
 
   def remove_item(self, name):
@@ -43,7 +42,7 @@ class Room:
   def _format_items_for_print(self):
     item_str = ''
     for item in self.items:
-      item_str += f'\n  * {item}'
+      item_str += f'\n    * {item}'
     return item_str if item_str.__len__() else '{none}'
 
   def __str__(self): 

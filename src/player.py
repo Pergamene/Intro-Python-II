@@ -13,7 +13,7 @@ class Player:
   def _format_items_for_print(self):
     item_str = ''
     for item in self.items:
-      item_str += f'\n  * {item}'
+      item_str += f'\n    * {item}'
     return item_str if item_str.__len__() else '{none}'
 
   def get_inventory(self):
@@ -29,5 +29,7 @@ class Player:
   def drop_item(self, name):
     for index, item in enumerate(self.items):
       if item.name == name:
-        return self.items.pop(index)
+        dropped_item = self.items.pop(index)
+        dropped_item.on_drop()
+        return dropped_item
     return None
